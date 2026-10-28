@@ -46,3 +46,13 @@ Chủ repository có thể vào **Settings → Collaborators** để mời ngư�
 - **Không thấy lệnh build:** kiểm tra extension LaTeX Workshop đã cài và mở đúng thư mục chứa `.vscode`.
 
 Hướng dẫn dành cho các coding agent nằm ở [AGENTS.md](AGENTS.md).
+
+## Dùng với Codex hoặc coding agent
+
+`AGENTS.md` chứa hướng dẫn tiếng Việt cho agent làm việc trong repository. Repository cũng có skill tại `.agents/skills/latex-docker/SKILL.md`. Mở repository trong Codex và bắt đầu phiên mới nếu cần để Codex phát hiện skill, sau đó yêu cầu:
+
+```text
+$latex-docker Hãy kiểm tra và thiết lập LaTeX local cho dự án này.
+```
+
+Các agent không hỗ trợ gọi skill có thể đọc trực tiếp `AGENTS.md` và tệp `SKILL.md`. Việc gọi skill không tự cấp quyền truy cập hay cài đặt ngoài phạm vi yêu cầu của bạn.
