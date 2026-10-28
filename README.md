@@ -54,3 +54,7 @@ $latex-docker Check and set up local LaTeX for this project.
 ```
 
 Agents without skill support can read `AGENTS.md` and `SKILL.md` directly. Calling a skill does not grant additional permissions.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
