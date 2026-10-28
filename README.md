@@ -1,48 +1,56 @@
-# LaTeX local với Docker và VS Code
+# Local LaTeX with Docker and VS Code
 
-Dự án mẫu biên dịch tài liệu LaTeX trên máy của bạn bằng Docker và XeLaTeX, có hỗ trợ tiếng Việt. Tệp nguồn và PDF nằm trong thư mục dự án; không cần cài TeX Live trực tiếp lên máy.
+Compile LaTeX locally with Docker and XeLaTeX, including Vietnamese text. Source files and the resulting PDF stay in your project folder; TeX Live does not need to be installed on the host.
 
-## Chuẩn bị
+## Prerequisites
 
-- Cài [Docker Desktop](https://www.docker.com/products/docker-desktop/) và khởi động Docker Engine. Trên Linux có thể dùng Docker Engine.
-- Cài [VS Code](https://code.visualstudio.com/) và extension [LaTeX Workshop](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop).
-- Cài [Git](https://git-scm.com/) để clone và đồng bộ dự án.
-- Kiểm tra `docker version`: cần có cả phần Client và Server. Image TeX Live đầy đủ có dung lượng lớn và cần Internet ở lần tải đầu.
+- Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) and start the Docker Engine. On Linux, Docker Engine can be used directly.
+- Install [VS Code](https://code.visualstudio.com/) and the [LaTeX Workshop extension](https://marketplace.visualstudio.com/items?itemName=James-Yu.latex-workshop).
+- Install [Git](https://git-scm.com/) to clone and share the project.
+- Run `docker version` and verify that both Client and Server are shown. The full TeX Live image is large and requires an internet connection for the first download.
 
-## Bắt đầu
+## Getting started
 
-1. Clone repository, mở thư mục dự án bằng **File → Open Folder** trong VS Code và tin cậy workspace nếu bạn tin tưởng nội dung.
-2. Chạy `docker pull texlive/texlive:latest` trong terminal. Đợi tải hoàn tất.
-3. Mở `main.tex`, nhấn `Ctrl+Alt+B` để biên dịch. Kết quả là `main.pdf` bên cạnh tệp nguồn.
-4. Nhấn `Ctrl+Alt+V` để xem PDF trong VS Code. Lưu tệp sau khi sửa; LaTeX Workshop có thể tự biên dịch lại.
+1. Clone the repository and open its folder in VS Code using **File → Open Folder**. Trust the workspace if you trust its contents.
+2. Run `docker pull texlive/texlive:latest` in a terminal and wait for it to finish.
+3. Open `main.tex` and press `Ctrl+Alt+B` to build. The resulting `main.pdf` appears beside the source file.
+4. Press `Ctrl+Alt+V` to view the PDF in VS Code. LaTeX Workshop may also rebuild after you save.
 
-Cấu hình nằm trong `.vscode/settings.json`. Nếu tạo dự án mới, sao chép thư mục `.vscode` vào gốc dự án. Công cụ chạy trong Docker và gắn thư mục chứa tệp LaTeX chính; giữ hình và các tệp được include trong thư mục đó. Tag `latest` có thể thay đổi theo thời gian; để tái lập kết quả lâu dài, nhóm nên thống nhất một phiên bản image cụ thể.
+The workspace configuration is in `.vscode/settings.json`. Copy that folder into another project to reuse it. The container mounts the directory containing the main LaTeX file, so keep included files and images inside that directory. The `latest` image tag can change; agree on a specific image version if reproducible builds are needed.
 
-## Biên dịch và kiểm thử thủ công
+## Build and test manually
 
-Trong PowerShell, từ thư mục dự án:
+From the project folder in PowerShell:
 
 ```powershell
 docker run --rm -v "${PWD}:/workdir" -w /workdir texlive/texlive:latest latexmk -g -xelatex -interaction=nonstopmode -file-line-error main.tex
 ```
 
-Trong Bash trên Linux/macOS:
+From the project folder in Bash on Linux or macOS:
 
 ```bash
 docker run --rm -v "$PWD:/workdir" -w /workdir texlive/texlive:latest latexmk -g -xelatex -interaction=nonstopmode -file-line-error main.tex
 ```
 
-Kiểm thử thành công khi lệnh trả về mã 0, tạo `main.pdf` và PDF hiển thị đúng dòng tiếng Việt cùng công thức. Cờ `-g` buộc biên dịch lại để kiểm thử. Tệp PDF và các tệp phụ được Git bỏ qua.
+The test passes when the command exits with code 0, produces `main.pdf`, and the PDF displays the Vietnamese text and equation correctly. The `-g` option forces a rebuild. Git ignores the PDF and generated auxiliary files.
 
-## Cộng tác qua GitHub
+## Collaborate on GitHub
 
-Chủ repository có thể vào **Settings → Collaborators** để mời người khác. Mỗi người clone, sửa, commit, push và pull thay đổi; dùng nhánh và pull request khi cần review. Git không đồng bộ theo từng ký tự như Overleaf. Không commit mật khẩu, token hay tài liệu riêng tư vào repository.
+The repository owner can invite people under **Settings → Collaborators**. Each collaborator can clone, edit, commit, push and pull changes; use branches and pull requests when review is needed. Git does not synchronize individual keystrokes like Overleaf. Do not commit passwords, tokens or private documents.
 
-## Khắc phục sự cố
+## Troubleshooting
 
-- **Không kết nối Docker:** mở Docker Desktop, đợi Engine chạy và thử `docker version`.
-- **Image chưa có:** chạy lại `docker pull texlive/texlive:latest` và kiểm tra mạng, dung lượng đĩa.
-- **Build thất bại:** mở bảng Output → LaTeX Workshop, tìm lỗi đầu tiên; kiểm tra đường dẫn hình và tệp được include. Có thể chạy lệnh thủ công ở trên để đọc log.
-- **Không thấy lệnh build:** kiểm tra extension LaTeX Workshop đã cài và mở đúng thư mục chứa `.vscode`.
+- **Cannot connect to Docker:** start Docker Desktop, wait for the engine, and run `docker version` again.
+- **Image unavailable:** retry `docker pull texlive/texlive:latest` and check your network connection and free disk space.
+- **Build fails:** open **Output → LaTeX Workshop** and find the first error; check paths to images and included files. Run the manual command above for the full log.
+- **Build command missing:** verify that LaTeX Workshop is installed and that you opened the folder containing `.vscode`.
 
-Hướng dẫn dành cho các coding agent nằm ở [AGENTS.md](AGENTS.md).
+## Using a coding agent
+
+[AGENTS.md](AGENTS.md) contains project instructions for coding agents. The repository also provides the `latex-docker` skill in `.agents/skills/latex-docker/SKILL.md`. Open the repository in Codex and start a new session if needed for skill discovery, then ask:
+
+```text
+$latex-docker Check and set up local LaTeX for this project.
+```
+
+Agents without skill support can read `AGENTS.md` and `SKILL.md` directly. Calling a skill does not grant additional permissions.

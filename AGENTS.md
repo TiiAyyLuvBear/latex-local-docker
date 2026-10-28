@@ -1,9 +1,13 @@
-# Hướng dẫn cho coding agent
+# Instructions for coding agents
 
-- Đọc README.md và xác định hệ điều hành, Docker Engine, VS Code và LaTeX Workshop trước khi thiết lập. Không giả định người dùng đã cài hay khởi động Docker.
-- Dùng Docker image `texlive/texlive:latest`, chạy `latexmk -xelatex`; không cài TeX Live trực tiếp trên máy nếu người dùng không yêu cầu. Giữ các tệp nguồn và dữ liệu của người dùng.
-- Nếu Docker hoặc VS Code chưa có, giải thích điều kiện tiên quyết và chỉ cài khi môi trường cho phép. Khi cần thao tác tương tác hoặc quyền mà agent không có, báo rõ bước bị chặn.
-- Với VS Code, cài `James-Yu.latex-workshop` nếu thiếu, mở thư mục dự án, dùng cấu hình `.vscode/settings.json`. Không ghi đè cấu hình người dùng toàn cục.
-- Kiểm thử bằng lệnh Docker phù hợp hệ điều hành trong README. Kiểm tra mã thoát, sự tồn tại của `main.pdf` và nội dung tiếng Việt, công thức trong PDF nếu có công cụ đọc PDF. Báo cáo rõ kết quả và những gì chưa kiểm tra; không tuyên bố thành công chỉ vì image đã tải.
-- Khi sửa tài liệu, biên dịch lại tài liệu bị ảnh hưởng; không commit PDF và tệp phụ trừ khi người dùng yêu cầu. Không xóa dữ liệu người dùng. Giữ các thay đổi ngoài phạm vi tác vụ.
-- Nếu thêm hoặc chạy mã Python, dùng virtual environment; hỏi người dùng khi không có script kích hoạt phù hợp theo chỉ dẫn của họ. Giao kèm testcase và kết quả kiểm thử trước khi hoàn tất công việc lập trình.
+- Read README.md and identify the operating system, Docker Engine, VS Code and LaTeX Workshop before setup. Do not assume Docker is installed or running.
+- Use the `texlive/texlive:latest` Docker image and `latexmk -xelatex`; do not install TeX Live directly on the host unless requested. Preserve the user's sources and data.
+- If Docker or VS Code is missing, explain the prerequisites and install only when the environment permits. Report any interactive or permission-dependent step that blocks progress.
+- For VS Code, install `James-Yu.latex-workshop` if missing, open the project folder, and use `.vscode/settings.json`. Do not overwrite global user settings.
+- Run the operating-system-appropriate Docker test in README. Check the exit code and that `main.pdf` exists. Check the Vietnamese text and equation if PDF inspection is available. Report results and unverified behavior; downloading an image alone is not a successful build.
+- Rebuild affected documents after edits. Do not commit generated PDFs or auxiliary files unless requested. Do not delete user data; preserve unrelated changes.
+- If adding or running Python code, use a virtual environment; ask the user when no suitable activation script exists, in accordance with their instructions. Deliver test cases and test results before completing programming work.
+
+## Callable skill
+
+For local LaTeX setup or troubleshooting with Docker, invoke `$latex-docker` if the environment supports skills, or read `.agents/skills/latex-docker/SKILL.md`. This AGENTS.md is project guidance and is not itself a callable skill.
