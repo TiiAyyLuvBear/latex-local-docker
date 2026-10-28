@@ -1,0 +1,18 @@
+{
+  "latex-workshop.docker.enabled": true,
+  "latex-workshop.docker.image.latex": "texlive/texlive:latest",
+  "latex-workshop.latex.recipe.default": "first",
+  "latex-workshop.latex.recipes": [
+    { "name": "latexmk (XeLaTeX, Docker)", "tools": ["latexmk-xelatex"] }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk-xelatex",
+      "command": "latexmk",
+      "cwd": "%DIR%",
+      "args": ["-xelatex", "-interaction=nonstopmode", "-synctex=1", "-file-line-error", "%DOCFILE%"]
+    }
+  ],
+  "latex-workshop.view.pdf.viewer": "tab"
+}
+
